@@ -7,5 +7,5 @@
 
 
 ## 2. Using
-* python madgwick.py
-* python extendedkalman.py
+* python3 madgwick.py
+* python3 extendedkalman.py
