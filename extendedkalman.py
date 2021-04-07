@@ -10,20 +10,20 @@ from plot3d import plot_3d
 
 
 class ExtendedKalman():
-    def __init__(self):
+    def __init__(self, dt):
         self.H = np.array([[1, 0, 0],
                            [0, 1, 0]])
 
-        self.Q = np.array([[0.001, 0, 0],
-                           [0, 0.001, 0],
-                           [0, 0, 0.001]])
+        self.Q = np.array([[0.00001, 0, 0],
+                           [0, 0.00001, 0],
+                           [0, 0, 0.00001]])
 
         self.R = 100 * np.identity(2)
 
         self.x = np.zeros(3)
-        self.P = 1 * np.identity(3)
+        self.P = 100 * np.identity(3)
 
-        self.dt = 0.02
+        self.dt = dt
 
     def cal_A(self, p, q, r):
         A = np.zeros((3, 3))
@@ -84,10 +84,10 @@ class ExtendedKalman():
         return self.x
 
 if __name__ == '__main__':
-    imu = excel_file_read("./imu_roll_pitch_yaw.xlsx")
+    imu = excel_file_read("./imu_roll_pitch_yaw_200hz.xlsx")
     # imu = calibration_imu(imu)
 
-    ekf = ExtendedKalman()
+    ekf = ExtendedKalman(0.005)
 
     rpy = []
     imu_plot = []

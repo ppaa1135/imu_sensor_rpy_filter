@@ -8,7 +8,7 @@ from plot3d import plot_3d
 
 class Madgwick:
     def __init__(self):
-        self.dt = 0.02
+        self.dt = 0.005
         self.quaternion = Quaternion(1,0,0,0)
 
         ######## if beta is high, faster but not smooth
@@ -52,7 +52,7 @@ class Madgwick:
         return self.quaternion
 
 if __name__ == '__main__':
-    imu = excel_file_read("./imu_roll_pitch_yaw.xlsx")
+    imu = excel_file_read("./imu_roll_pitch_yaw_200hz.xlsx")
 
     madgwick = Madgwick()
 

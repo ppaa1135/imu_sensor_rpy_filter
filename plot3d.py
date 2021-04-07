@@ -26,7 +26,7 @@ def plot_3d(data):
     # make 3 lines - x, y, z
     lines = [ax.plot([0,data[0,i,0]], [0,data[0,i,1]], [0,data[0,i,2]])[0] for i in range(3)]
     line_ani = animation.FuncAnimation(fig, update_lines, data.shape[0], fargs=(data, lines),
-                                       interval=2, blit=False)
+                                       interval=1, blit=False)
     plt.show()
 
 def update_lines(num, dataLines, lines):
