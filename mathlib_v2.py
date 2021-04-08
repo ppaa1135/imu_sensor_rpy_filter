@@ -26,6 +26,14 @@ def norm_quaternion(quaternion):
 	else:
 		return quaternion / norm_q
 
+def conj_quaternion(quaternion):
+	w = quaternion[0]
+	x = -quaternion[1]
+	y = -quaternion[2]
+	z = -quaternion[3]
+
+	return np.array([w,x,y,z])
+
 def quaternion2euler(quaternion):
 	w = quaternion[0]
 	x = quaternion[1]
