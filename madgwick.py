@@ -2,14 +2,14 @@ import numpy as np
 from numpy.linalg import norm, inv
 import matplotlib.pyplot as plt
 
-from mathlib import Quaternion, euler_rotation_mat, quaternion_rotation_mat
+from mathlib_v2 import *
 from excel_read import excel_file_read
 from plot3d import plot_3d
 
 class Madgwick:
     def __init__(self):
         self.dt = 0.005
-        self.quaternion = Quaternion(1,0,0,0)
+        self.quaternion = quaternion(1,0,0,0)
 
         ######## if beta is high, faster but not smooth
         self.beta = 0.06
@@ -27,7 +27,7 @@ class Madgwick:
 
         q = self.quaternion
 
-        accelerometer /= norm(accelerometer)
+        accelerometer = norm_quaternion(accelerometer)
 
         f = np.array([
             2*(q[1]*q[3] - q[0]*q[2]) - accelerometer[0],
@@ -40,14 +40,14 @@ class Madgwick:
             [0, -4*q[1], -4*q[2], 0]
         ])
         step = j.T.dot(f)
-        step /= norm(step)  # normalise step magnitude
+        step = norm_quaternion(step)  # normalise step magnitude
 
         # Compute rate of change of quaternion
-        qdot = (q * Quaternion(0, gyroscope[0], gyroscope[1], gyroscope[2])) * 0.5 - self.beta * step.T
+        qdot = mul_quaternion(q,[0, gyroscope[0], gyroscope[1], gyroscope[2]]) * 0.5 - self.beta * step.T
 
         # Integrate to yield quaternion
         q += qdot * self.dt
-        self.quaternion = Quaternion(q / norm(q))  # normalise quaternion
+        self.quaternion = norm_quaternion(q)  # normalise quaternion
 
         return self.quaternion
 
@@ -56,14 +56,14 @@ if __name__ == '__main__':
 
     madgwick = Madgwick()
 
-    rpy = []
+    rpy_list = []
     imu_plot = []
     for one_imu in imu:
         q = madgwick.update(one_imu)
-        r, p, y = q.to_euler123()
-        rpy.append([r, p, y])
+        rpy = quaternion2euler(q)
+        rpy_list.append(rpy)
 
-        r_mat = euler_rotation_mat(r, p, y)
+        r_mat = euler_rotation_mat(rpy)
         r_mat_q = quaternion_rotation_mat(q)
 
         plot_xyz = r_mat @ np.identity(3)
@@ -71,11 +71,10 @@ if __name__ == '__main__':
 
         imu_plot.append(plot_xyz_q.T)
 
-    rpy = np.array(rpy) * 180 / 3.1416
-
-    plt.plot(rpy[:, 0], 'r-')
-    plt.plot(rpy[:, 1], 'b-')
-    plt.plot(rpy[:, 2], 'g-')
+    rpy_list = np.array(rpy_list) * 180 / 3.1416
+    plt.plot(rpy_list[:, 0], 'r-')
+    plt.plot(rpy_list[:, 1], 'b-')
+    plt.plot(rpy_list[:, 2], 'g-')
     plt.grid()
     # plt.ylim(-10,10)
     plt.show()

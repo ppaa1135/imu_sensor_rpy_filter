@@ -84,6 +84,18 @@ class Quaternion:
         pitch = np.arcsin(2 * (self[0] * self[2] - self[3] * self[1]))
         yaw = np.arctan2(2*(self[0] * self[3] + self[1] * self[2]),
                          1 - 2*(self[2] ** 2 + self[3] ** 2))
+
+        # to avoid gimbal lock #
+        # when pitch +90 -90 #
+        if self[0] * self[2] - self[3] * self[1] > 0.495:
+            roll = 0
+            yaw = 2 * np.arctan2(self[1], self[0])
+            print("pitch +90")
+
+        if self[0] * self[2] - self[3] * self[1] < -0.495:
+            roll = 0
+            yaw = -2 * np.arctan2(self[1], self[0])
+            print("pitch -90")
         return roll, pitch, yaw
 
 
@@ -137,3 +149,7 @@ def quaternion_rotation_mat(q):
                       [2*(x*z - w*y), 2*(w*x + y*z), 1-2*(x**2 + y**2)]])
 
     return R_mat
+
+
+if __name__ == '__main__':
+    pass
