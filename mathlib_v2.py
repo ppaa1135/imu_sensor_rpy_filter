@@ -56,13 +56,13 @@ def quaternion2euler(quaternion):
 	# to avoid gimbal lock #
 	# when pitch +90 -90 #
 	################################
-	if t1 > 0.98:
-		roll = 0
-		yaw = 2 * np.arctan2(x, w)
+	# if t1 > 0.98:
+	# 	roll = 0
+	# 	yaw = 2 * np.arctan2(x, w)
 
-	if t1 < -0.98:
-		roll = 0
-		yaw = -2 * np.arctan2(x, w)
+	# if t1 < -0.98:
+	# 	roll = 0
+	# 	yaw = -2 * np.arctan2(x, w)
 	################################
 
 	return np.array([roll, pitch, yaw])
@@ -144,10 +144,10 @@ if __name__ == '__main__':
 	yaw = deg2rad(0)
 
 	e = np.array([roll, pitch, yaw])
-	print("e :", e)
+	print("e1 :", e)
 	q1 = euler2quaternion(e)
 	print("q1 :", q1)
 	e1 = quaternion2euler(q1)
-	print("e1 :", e1)
+	print("e2 :", e1)
 	q2 = euler2quaternion(e1)
 	print("q2 :",q2)

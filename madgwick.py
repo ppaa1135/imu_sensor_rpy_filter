@@ -12,7 +12,7 @@ class Madgwick:
 		self.quaternion = quaternion(1,0,0,0)
 
 		######## if beta is high, faster but not smooth
-		self.beta = 0.005
+		self.beta = 0.5
 
 	def update_6imu(self, imu):
 		accelerometer = imu[0:3].copy()
