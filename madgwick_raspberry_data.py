@@ -19,7 +19,7 @@ def excel_read(file_name):
 
 
 def main():
-	imu_dataframe = excel_read("2021-04-18 23_23_36.xlsx")
+	imu_dataframe = excel_read("./data/2021-04-18 23_23_36.xlsx")
 
 	### step detect ###
 	acc_norm = imu_dataframe['acc_x']**2 + imu_dataframe['acc_y']**2 + imu_dataframe['acc_z']**2

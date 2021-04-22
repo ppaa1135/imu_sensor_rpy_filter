@@ -2,9 +2,9 @@ import numpy as np
 from numpy.linalg import norm, inv
 import matplotlib.pyplot as plt
 
-from mathlib_v2 import *
-from excel_read import excel_file_read
-from plot3d import plot_3d
+from lib.mathlib_v2 import *
+from lib.excel_read import excel_file_read
+from lib.plot3d import plot_3d
 
 class Madgwick:
 	def __init__(self):
@@ -90,7 +90,7 @@ class Madgwick:
 
 
 if __name__ == '__main__':
-	imu = excel_file_read("./imu_roll_pitch_yaw_200hz.xlsx")
+	imu = excel_file_read("./data/imu_roll_pitch_yaw_200hz.xlsx")
 
 	madgwick = Madgwick()
 

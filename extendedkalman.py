@@ -84,7 +84,7 @@ class ExtendedKalman():
         return self.x
 
 if __name__ == '__main__':
-    imu = excel_file_read("./imu_roll_pitch_yaw_200hz.xlsx")
+    imu = excel_file_read("./data/imu_roll_pitch_yaw_200hz.xlsx")
     # imu = calibration_imu(imu)
 
     ekf = ExtendedKalman(0.005)
